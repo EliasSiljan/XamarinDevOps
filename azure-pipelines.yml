@@ -9,9 +9,28 @@ trigger:
 pool:
   vmImage: 'macOS-10.14'
 
+variables:
+  - name: buildConfiguration
+    value: "Release"
+  - name: projects
+    value: "$(Build.SourcesDirectory)/XamarinDevOps.Tests/*.csproj"
+
 steps:
   - task: NuGetToolInstaller@1
 
   - task: NuGetCommand@2
     inputs:
       restoreSolution: "**/*.sln"
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: "$(projects)"
+      arguments: "--configuration $(buildConfiguration)"
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: "$(projects)"
+      arguments: "--configuration $(buildConfiguration)"
