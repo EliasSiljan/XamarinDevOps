@@ -9,7 +9,7 @@ variables:
   - template: templates/variables.yml
 
 schedules:
-- cron: "0 0 * * 0-6"
+- cron: "0 0 * * 1-5"
   displayName: Daily midnight build
   branches:
     include:
@@ -37,6 +37,7 @@ stages:
           - template: templates/init_restore.yml
             parameters:
               solutionPath: '$(solutionPath)'
+          
           - template: templates/build_xamarin_android.yml
             parameters:
               xamarinSdkVersion: '$(xamarinSdkVersion)'
@@ -47,8 +48,6 @@ stages:
               apksignerKeystorePassword: $(keystore.password)
               apksignerKeystoreAlias: $(key.alias)
               apksignerKeyPassword: $(key.password)
-          
-          ## Steps to build your Xamarin Android application
 
   - stage: Build_Xamarin_iOS
     dependsOn: Run_Unit_Tests
@@ -61,6 +60,7 @@ stages:
           - template: templates/init_restore.yml
             parameters:
               solutionPath: '$(solutionPath)'
+
           - template: templates/build_xamarin_ios_ipa.yml
             parameters:
               xamarinSdkVersion: '$(xamarinSdkVersion)'
@@ -71,5 +71,3 @@ stages:
               buildConfiguration: '$(buildConfiguration)'
               signingIdentity: '$(APPLE_CERTIFICATE_SIGNING_IDENTITY)'
               signingProvisioningProfileID: '$(APPLE_PROV_PROFILE_UUID)'
-
-          ## Steps to build your Xamarin Android application
