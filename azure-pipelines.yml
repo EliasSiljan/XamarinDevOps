@@ -16,21 +16,8 @@ variables:
     value: "$(Build.SourcesDirectory)/XamarinDevOps.Tests/*.csproj"
 
 steps:
-  - task: NuGetToolInstaller@1
-
-  - task: NuGetCommand@2
-    inputs:
-      restoreSolution: "**/*.sln"
-
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: build
-      projects: "$(projects)"
-      arguments: "--configuration $(buildConfiguration)"
-
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: test
-      projects: "$(projects)"
-      arguments: "--configuration $(buildConfiguration)"
+  - template: templates/run_unit_tests.yml
+    parameters:
+      solutionPath: '$(solutionPath)'
+      projects: '$(Build.SourcesDirectory)/XamarinDevOps.Tests/*.csproj'
+      buildConfiguration: '$(buildConfiguration)'
