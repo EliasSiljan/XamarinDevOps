@@ -1,0 +1,34 @@
+trigger:
+  - master
+
+pool:
+  vmImage: 'macOS-10.14'
+
+stages:
+  - stage: Build_Xamarin_Android
+    dependsOn: []
+    jobs:
+      - job:
+        displayName: 'Build Xamarin.Android'
+        workspace:
+          clean: all
+        steps:
+          - template: templates/init_restore.yml
+            parameters:
+              solutionPath: '$(solutionPath)'
+          
+          ## Steps to build your Xamarin Android application
+
+  - stage: Build_Xamarin_iOS
+    dependsOn: []
+    jobs:
+      - job:
+        displayName: 'Build Xamarin.iOS'
+        workspace:
+          clean: all
+        steps:
+          - template: templates/init_restore.yml
+            parameters:
+              solutionPath: '$(solutionPath)'
+
+          ## Steps to build your Xamarin Android application
